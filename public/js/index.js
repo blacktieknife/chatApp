@@ -89,7 +89,6 @@ $("#cF").on("submit", function(e){
     var inputVal = $("#din").val();
     if(inputVal.length > 0){
         socket.emit("createMessage", {from:"blockhead", text:inputVal}, function(data){
-       
             if(data == "a-ok!"){
                 console.log(data);
             } else {
