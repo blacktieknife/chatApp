@@ -5,17 +5,32 @@
         <title>Chat Example</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="initial-scale=1.0">
+        <link rel="stylesheet" href="/css/styles.css">
     </head>
 
-    <body>
-<h2>Hello! Time to talk!</h2>
-        <div id="chatArea" style="width:50%;">
+    <body class="chat">
         
+        <div class="chat__sidebar">
+        <h3>Users</h3>
+            <div id='users'></div>
         </div>
-        <form id='cF'>
-    <input id="din" placeholder="enter text here">
-        </form>
-        <span id="abt">clcil</span>
+        
+        <div class="chat__main">
+            <ol id="messages" class="chat__messages"></ol>
+            
+             <div class="chat__footer">
+             <form id='cF'>
+                 <input id="din" placeholder="enter text here" autofocus autocomplete="off">
+                <button>Send</button>
+            </form>
+        <button id="abt">share location</button>
+        </div>
+            
+            
+        </div>
+        
+       
+       
         
         
         
