@@ -131,7 +131,6 @@ color:darkturquoise;
 }
 
 .chat__messages li{
-    max-width: 50%;
 border: 1.3px solid lightgrey;
     margin:15px;
     padding:10px;
