@@ -5,10 +5,15 @@ const socketIO = require('socket.io');
 const http = require('http');
 const publicPath = path.join(__dirname,"../public");
 const {generateMessage} = require('./utils/message.js');
+const {generateLocation} = require('./utils/message.js');
+const ejs = require('ejs');
+
 
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
+
+app.set('view engine', 'ejs');
 
 //middleware
 
@@ -25,6 +30,10 @@ chatApp.on("connection", function(socket){
     socket.emit("newMessage",generateMessage("Admin","Welcome to the chat"));
     socket.broadcast.emit("newMessage",generateMessage("Admin","User joined the chat"));
        
+    socket.on("createLocation", function(location){
+        console.log("recieved location", location);
+        chatApp.emit("newLocation", generateLocation(location.from, location.latitude, location.longitude))
+    });
     
      socket.on("createMessage", function(message, callback){
          chatApp.emit("newMessage",generateMessage(message.from,message.text));

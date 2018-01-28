@@ -11,12 +11,31 @@ socket.on("disconnect", function(){
 });
 
 socket.on("newMessage", function(message){
-  
-    message["createdAt"] = new Date(message["createdAt"]).toLocaleString();
+    var messageTemplate = $("#message-template").html();
+    var date = moment(message.createdAt).format("MMM Do YYYY h:mm:ss a");
+    var html = Mustache.render(messageTemplate, {
+        from:message.from,
+        text:message.text,
+        createdAt:date
+    });
     
-    console.log("new Message! ", message);
-    $("#messages").append("<li><span class='message__header'><span style='font-weight:bold;'>"+message.from+"</span> <span class='message_timestamp'>@:"+message.createdAt+"</span></span><hr>"+message.text+"<br><br></li>")
+    $("#messages").append(html);
+
 });
+
+socket.on("newLocation", function(location){
+    var locationTemplate = $("#location-template").html();
+    var date = moment(location.createdAt).format("MMM Do YYYY h:mm:ss a");
+    var html = Mustache.render(locationTemplate, {
+        from:location.from,
+        url:location.url,
+        createdAt:date
+    });
+    
+    $("#messages").append(html);
+
+});
+
 
 
 var locButton = $("#abt");
@@ -41,20 +60,15 @@ navigator.geolocation.getCurrentPosition(function(position) {
     locButton.text("Fetching Location");
     
     currentLocation.then(function(position){
-        console.log(position);
-        socket.emit('createMessage', {
+        //console.log(position);
+        socket.emit('createLocation', {
             from:"Blockhead",
-            text:`This is my current location, <a target='_blank' href='${position.url}'>Map</a>`
-        }, function(data){
-              if(data == "a-ok!"){
-                console.log(data);
-                locButton.attr("disabled", false);
-                locButton.text("Share Location");
-            } else {
-                console.log("something broke");
-            }
+            latitude:position.lat,
+            longitude:position.long
         });
-//$("#chatArea").prepend("From:'Admin'<hr>This is my current location <a href="+position.url+">map</a><br><br>")
+        locButton.attr("disabled", false);
+        locButton.text("Share Location");
+
     }).catch(function(err){
         alert(err);
         locButton.attr("disabled", false);
@@ -62,8 +76,9 @@ navigator.geolocation.getCurrentPosition(function(position) {
     });
      
 } else {
-    alert("geoLocation is not available");
+  
   /* geolocation IS NOT available */
+      alert("geoLocation is not available");
 }
     
 });

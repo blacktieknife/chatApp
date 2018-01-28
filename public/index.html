@@ -29,13 +29,38 @@
             
         </div>
         
-       
+       <script id="message-template" type="text/template">
+        <li>
+            <span class='message__header'>
+                <span style='font-weight:bold;'>{{from}}</span>
+                <span class='message_timestamp'>@: {{createdAt}}</span>
+           </span>
+           <hr>
+           {{text}}
+           <br>
+           <br>
+        </li>
+        </script>
+         <script id="location-template" type="text/template">
+        <li>
+            <span class='message__header'>
+                <span style='font-weight:bold;'>{{from}}</span>
+                <span class='message_timestamp'>@: {{createdAt}}</span>
+           </span>
+           <hr>
+           Here is a link to my current location <a href="{{url}}" target="_blank">Map</a>
+           <br>
+           <br>
+        </li>
+        </script>
        
         
         
         
         <script src="/js/libs/jquery.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/libs/moment.js"></script>
+        <script src="/js/libs/mustache.min.js"></script>
         <script src="/js/index.js"></script>
     
     </body>
