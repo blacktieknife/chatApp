@@ -2,66 +2,36 @@
 
 <html>
     <head>
-        <title>Chat Example</title>
+        <title>Join Chat</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="initial-scale=1.0">
-        <link rel="stylesheet" href="/css/styles.css">
+         <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+         <link rel="stylesheet" href="/css/styles.css">
     </head>
 
-    <body class="chat">
-        
-        <div class="chat__sidebar">
-        <h3>Users</h3>
-            <div id='users'></div>
-        </div>
-        
-        <div class="chat__main">
-            <ol id="messages" class="chat__messages"></ol>
-            
-             <div class="chat__footer">
-             <form id='cF'>
-                 <input id="din" placeholder="enter text here" autofocus autocomplete="off">
-                <button>Send</button>
+    <body class="centered-form">
+        <div class="centered-form__form">
+            <form action="/chat.html">
+                <div class="form-field">
+                    <h3>
+                        Join Chat
+                    </h3>
+                </div>
+                <div class="form-field">
+                    <label>
+                        Name
+                    </label>
+                    <input type="text" name="name" autofocus/>
+                </div>
+                <div class="form-field">
+                    <lable>
+                        Room Name
+                    </lable>
+                     <input type="text" name="room"/>
+                </div>
+                <div class="form-field">
+                    <button>Join</button>
+                </div>
             </form>
-        <button id="abt">share location</button>
         </div>
-            
-            
-        </div>
-        
-       <script id="message-template" type="text/template">
-        <li>
-            <span class='message__header'>
-                <span style='font-weight:bold;'>{{from}}</span>
-                <span class='message_timestamp'>@: {{createdAt}}</span>
-           </span>
-           <hr>
-           {{text}}
-           <br>
-           <br>
-        </li>
-        </script>
-         <script id="location-template" type="text/template">
-        <li>
-            <span class='message__header'>
-                <span style='font-weight:bold;'>{{from}}</span>
-                <span class='message_timestamp'>@: {{createdAt}}</span>
-           </span>
-           <hr>
-           Here is a link to my current location <a href="{{url}}" target="_blank">Map</a>
-           <br>
-           <br>
-        </li>
-        </script>
-       
-        
-        
-        
-        <script src="/js/libs/jquery.min.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/js/libs/moment.js"></script>
-        <script src="/js/libs/mustache.min.js"></script>
-        <script src="/js/index.js"></script>
-    
     </body>
 </html>

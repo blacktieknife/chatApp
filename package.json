@@ -17,5 +17,8 @@
     "express": "^4.16.2",
     "moment": "^2.20.1",
     "socket.io": "^2.0.4"
+  },
+  "devDependencies": {
+    "expect": "^22.1.0"
   }
 }

@@ -2,8 +2,32 @@ var socket = io("/chatApp");
 
 
 socket.on("connect", function(){
-    console.log('connected to socket server on /chatApp');
+    var params = $.deparam(window.location.search);
+    console.log(params);
     
+    socket.emit('join', params, function(err){
+        if(err){
+            window.alert(err);
+            window.location.href = "/";
+        }else{
+            console.log("everthing looks good fomrt his end.")
+        }
+    });
+});
+
+socket.on("updateUsers", function(users){
+ 
+    $("#users").empty();
+users.forEach(function(val,i){
+   var usersTemplate = $("#users-template").html();
+    var html = Mustache.render(usersTemplate, {
+        name:val,
+    });
+    
+    $("#users").append(html);
+});
+
+fixScroll();
 });
             
 socket.on("disconnect", function(){
