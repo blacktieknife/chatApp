@@ -35,11 +35,12 @@ class Users {
         return returnUsers;
     }
     getUser(id){
-      this.users.forEach(function(val,i){
-          if(val.id == id){
-              return val;
-          }
-      });
+        for(let i=0; i<this.users.length; i++){
+            if(this.users[i].id === id){
+                return this.users[i];
+            }
+        }
+    //return this.users.filter(function(user){return user.id == id})[0];
     }
 }
 

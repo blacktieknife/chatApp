@@ -15,7 +15,7 @@ const ejs = require('ejs');
 var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
-var User = new Users();
+var users = new Users();
 
 app.set('view engine', 'ejs');
 
@@ -40,12 +40,12 @@ chatApp.on("connection", function(socket){
             callback("Name and Room are required");
         }
         
-        User.addUser(socket.id,params.name,params.room);
-        var userList = User.getUserList(params.room);
+        users.addUser(socket.id,params.name,params.room);
+        var userList = users.getUserList(params.room);
         console.log(userList);
         socket.join(params.room);
        chatApp.to(params.room).emit("updateUsers", userList); socket.broadcast.to(params.room).emit("newMessage",generateMessage("Admin",`${params.name} has joined the chat!`));
-        console.log(User.users);
+        console.log(users.users);
         
 //            socket.emit("newMessage",generateMessage("Admin","Welcome to the chat"));
 //    socket.broadcast.emit("newMessage",generateMessage("Admin","User joined the chat"));
@@ -53,13 +53,22 @@ chatApp.on("connection", function(socket){
     });
        
     socket.on("createLocation", function(location){
-        console.log("recieved location", location);
-        chatApp.emit("newLocation", generateLocation(location.from, location.latitude, location.longitude))
+        var user = users.getUser(socket.id);
+        
+        if(user){
+            chatApp.to(user.room).emit("newLocation", generateLocation(user.name, location.latitude, location.longitude));
+        }
+
     });
     
     
      socket.on("createMessage", function(message, callback){
-         chatApp.emit("newMessage",generateMessage(message.from,message.text));
+        var user = users.getUser(socket.id);
+
+         if(user && isRealString(message.text)){
+            chatApp.to(user.room).emit("newMessage",generateMessage(user.name,message.text));
+         }
+        
         
          callback("a-ok!");
 //        socket.broadcast.emit("newMessage",message);
@@ -68,9 +77,9 @@ chatApp.on("connection", function(socket){
     
     socket.on("disconnect", function(socket){
        
-        var user = User.removeUser(socketID);
+        var user = users.removeUser(socketID);
 chatApp.to(user.room).emit("newMessage",generateMessage("Admin",`${user.name} left the chat`));
-    chatApp.to(user.room).emit("updateUsers", User.getUserList(user.room));
+    chatApp.to(user.room).emit("updateUsers", users.getUserList(user.room));
     console.log(`${user.name} has disconnected`);
         
 });

@@ -99,7 +99,6 @@ navigator.geolocation.getCurrentPosition(function(position) {
     currentLocation.then(function(position){
         //console.log(position);
         socket.emit('createLocation', {
-            from:"Blockhead",
             latitude:position.lat,
             longitude:position.long
         });
@@ -125,7 +124,7 @@ $("#cF").on("submit", function(e){
     e.preventDefault();
     var inputVal = $("#din").val();
     if(inputVal.length > 0){
-        socket.emit("createMessage", {from:"blockhead", text:inputVal}, function(data){
+        socket.emit("createMessage", {text:inputVal}, function(data){
             if(data == "a-ok!"){
                 console.log(data);
             } else {
